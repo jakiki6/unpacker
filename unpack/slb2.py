@@ -39,6 +39,7 @@ def process(in_file, out_file, should_pack):
             return
 
         root, _, filenames = next(os.walk(in_file))
+        filenames = sorted(filenames, key = lambda s: sum(map(ord, s)))
 
         files = []
 

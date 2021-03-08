@@ -1,9 +1,11 @@
-import exefs, romfs, slb2
+import exefs, romfs, slb2, scecaf, self
 
 magics = {
     b".code": exefs.process,    # .code is commonly the first file in exefs
     b"IVFC": romfs.process,
-    b"SLB2": slb2.process
+    b"SLB2": slb2.process,
+    b"SCECAF\x00\x00": scecaf.process,
+    b"\x4f\x15\x3d\x1d": self.process
 }
 
 def guess(in_file, out_file, should_pack):

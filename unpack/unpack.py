@@ -2,13 +2,15 @@
 
 import argparse, os
 
-import fileformats, romfs, exefs, slb2
+import fileformats, romfs, exefs, slb2, scecaf, self
 
 modes = {
     "guess": fileformats.guess,
     "romfs": romfs.process,
     "exefs": exefs.process,
-    "slb2": slb2.process
+    "slb2": slb2.process,
+    "scecaf": scecaf.process,
+    "self": self.process
 }
 
 parser = argparse.ArgumentParser(description="pack/unpack tool for various 3ds file formats")
