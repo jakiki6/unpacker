@@ -64,7 +64,7 @@ def process(in_file, out_file, should_pack):
             wr_le(0, buf, 4)        # dummy value
             wr_str(b"\x00" * 4 * 3, buf)
 
-            offset = align(buf.tell(), 512)
+            offset = align(buf.tell(), 512) + 512
             for file_data in files:
                 file_data["offset"] = offset
                 wr_le(offset // 512, buf, 4)
@@ -77,9 +77,10 @@ def process(in_file, out_file, should_pack):
                 print(f"writing {file_data['name']}")
                 buf.seek(file_data["offset"])
                 with open(file_data["path"], "rb") as infile:
-                    for i in range(0, align(file_data["size"], 512) // 512 + 1):
+                    for i in range(0, align(file_data["size"], 512) // 512):
                         buf.write(infile.read(512))
+                    buf.write(infile.read(file_data["size"] % 512))
 
             length = align(buf.tell(), 512)
             buf.seek(seek_len)
-            wr_le(length, buf, 4)
+            wr_le(length // 512, buf, 4)

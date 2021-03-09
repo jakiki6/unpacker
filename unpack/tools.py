@@ -14,6 +14,6 @@ def wr_le(val, buf, num):
         raise OverflowError(f"{val} doesn't fit in {num} byte(s)")
 
 def align(num, al):
-    if num % al:
-        num += al - (num % al)
+    while num % al:
+        num += 1
     return num
