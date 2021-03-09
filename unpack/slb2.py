@@ -30,8 +30,9 @@ def process(in_file, out_file, should_pack):
 
                 buf.seek(start)
                 with open(os.path.join(out_file, fname), "wb") as outf:
-                    for i in range(0, (size + 512) // 512):
+                    for i in range(0, size // 512):
                         outf.write(buf.read(512))
+                    outf.write(buf.read(size % 512))
                 buf.seek(orig_offset)
     else:
         if not os.path.isdir(in_file):
