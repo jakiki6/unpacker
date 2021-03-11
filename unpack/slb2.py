@@ -34,6 +34,7 @@ def process(in_file, out_file, should_pack):
                         outf.write(buf.read(512))
                     outf.write(buf.read(size % 512))
                 buf.seek(orig_offset)
+
     else:
         if not os.path.isdir(in_file):
             print("Invalid input or output!")
@@ -84,3 +85,10 @@ def process(in_file, out_file, should_pack):
             length = align(buf.tell(), 512)
             buf.seek(seek_len)
             wr_le(length // 512, buf, 4)
+
+            buf.seek(0, 2)
+            print(f"padding {buf.tell() % 512} bytes")
+            while buf.tell() % 512:
+                buf.write(bytes([0]))
+
+            print("You need to patch the SLB2 file if you're using a newer firmware version")
