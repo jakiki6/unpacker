@@ -2,11 +2,11 @@
 # tags: ps4 kernel dump strings source-code
 
 i = 0
-d = b"W:\\Build\\J02328486"
+d = b"W:\\Build\\J02387083"
 offsets = []
 strings = []
 
-with open("650_fulldump.elf", "rb") as buf:
+with open("dump.elf", "rb") as buf:
     a = b""
     while True:
         a = buf.read(1)
