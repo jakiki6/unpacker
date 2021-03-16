@@ -65,7 +65,7 @@ def process(in_file, out_file, should_pack):
             wr_le(0, buf, 4)        # dummy value
             wr_str(b"\x00" * 4 * 3, buf)
 
-            offset = align(buf.tell() + (len(files) * 48), 512) + 512
+            offset = align(buf.tell() + (len(files) * 48), 512)
             for file_data in files:
                 file_data["offset"] = offset
                 wr_le(offset // 512, buf, 4)
