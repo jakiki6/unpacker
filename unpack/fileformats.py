@@ -10,7 +10,8 @@ magics = {
 
 def guess(in_file, out_file, should_pack):
     hit = False
-    try:
+    if True:
+#    try:
         with open(in_file, "rb") as file:
             for key, val in magics.items():
                 file.seek(0)
@@ -19,7 +20,7 @@ def guess(in_file, out_file, should_pack):
                     hit = True
                     val(in_file, out_file, should_pack)
                     break
-    except FileNotFoundError:
-        print(f"{in_file} not found")
+#    except FileNotFoundError:
+#        print(f"{in_file} not found")
     if not hit:
         print("Magic not found")

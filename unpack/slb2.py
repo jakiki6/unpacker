@@ -24,7 +24,13 @@ def process(in_file, out_file, should_pack):
                 size = rd_le(buf, 4)
                 padding = rd_str(buf, 2 * 4)
                 fname = rd_str(buf, 32).rstrip(b"\x00").decode()
-                print(f"\t{fname}:\n\t\tstart: {start}\n\t\tsize: {size}\n\t\tpadding: {padding}")
+
+                ot = buf.tell()
+                buf.seek(0x200 + 32 * i)
+                fhash = rd_str(buf, 32).hex()
+                buf.seek(ot)
+
+                print(f"\t{fname}:\n\t\tstart: {start}\n\t\tsize: {size}\n\t\tpadding: {padding}\n\thash: {fhash}")
 
                 orig_offset = buf.tell()
 
@@ -65,7 +71,7 @@ def process(in_file, out_file, should_pack):
             wr_le(0, buf, 4)        # dummy value
             wr_str(b"\x00" * 4 * 3, buf)
 
-            offset = align(buf.tell() + (len(files) * 48), 512)
+            offset = align(buf.tell() + (len(files) * 48), 512) + 512 # hashes lmao
             for file_data in files:
                 file_data["offset"] = offset
                 wr_le(offset // 512, buf, 4)

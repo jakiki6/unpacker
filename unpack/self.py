@@ -25,7 +25,7 @@ def process(in_file, out_file, should_pack):
 
             print(
                 f"magic: {magic}\nunknown: {unknown1}\ncontent type: {content_type}\nprogram type: {program_type}\npadding: {padding1}\nheader size: {header_size}\nsignature size: {sig_size}\n" + \
-                f"self size: {self_size}\npadding: {padding2}\nnumber of sections: {num_sections}\nunknown: {unknown2}\npadding: {padding3}"
+                f"self size: {self_size}\npadding: {padding2}\nnumber of sections: {num_sections}\nunknown: {unknown2}\npadding: {padding3}\nsections:"
             )
 
             segments = []
@@ -35,9 +35,9 @@ def process(in_file, out_file, should_pack):
                 packed_size = rd_le(buf, 8)
                 unpacked_size = rd_le(buf, 8)
 
-                print(f"{i}:")
-                print(f"\toffset: {offset}\n\tpacked size: {packed_size}\n\tunpacked size: {unpacked_size}")
-                print(f"\tflags: ", end="")
+                print(f"\t{i}:")
+                print(f"\t\toffset: {offset}\n\t\tpacked size: {packed_size}\n\t\tunpacked size: {unpacked_size}")
+                print(f"\t\tflags: ", end="")
                 if flags & 0x1:
                     print("ordered", end=" ")
                 if flags & 0x2:
@@ -48,3 +48,4 @@ def process(in_file, out_file, should_pack):
                     print("deflated", end=" ")
                 if flags & 0x800:
                     print("block", end=" ")
+                print()
